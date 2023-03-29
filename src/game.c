@@ -4,7 +4,7 @@
 struct game_s {
   terminal_t* t_;
   size_t num_pins_;
-  stack_t* pins_[3];
+  stacks_t* pins_[3];
   uint8_t current_pin_;
   disc_t* current_disc_;
   boolean_t is_running_;
@@ -180,7 +180,7 @@ void draw_info_(game_t* self)
       "\tPress TAB to go to the next move.\n"
       "\tPress Q to quit.\n\n\n");
     char __s[32];
-    sprintf(__s, "\tStep %hu: %s", (uint16_t)self->num_moves_ + 1, movement_to_string_(*(keys_t*)vector_get(self->solution_, self->num_moves_)));
+    sprintf(__s, "\tStep %hu: %s", (uint16_t)(self->num_moves_ + 1), movement_to_string_(*(keys_t*)vector_get(self->solution_, self->num_moves_)));
     terminal_color(self->t_, 0, 0, 0);
     terminal_background(self->t_, 255, 255, 102);    
     terminal_out_string(self->t_, __s);
@@ -210,7 +210,7 @@ void game_draw(game_t* self)
   for (; i < 3; i++) {
     draw_pin_(self, i);
 
-    stack_t* aux;
+    stacks_t* aux;
     stack_create(&aux);
     size_t j = stack_size(self->pins_[i]);
     for (; j > 0; j--) {

@@ -5,14 +5,14 @@
 #include "base.h"
 #include "list.h"
 
-typedef struct list_s stack_t;
+typedef struct list_s stacks_t;
 
-void stack_create(stack_t** self);
-void stack_destroy(stack_t** self);
-void stack_push(stack_t* self, void* data);
-void* stack_pop(stack_t* self);
-void* stack_top(stack_t* self);
-size_t stack_size(stack_t* self);
-boolean_t stack_empty(stack_t* self);
+void stack_create(stacks_t** self);
+void stack_destroy(stacks_t** self);
+void stack_push(stacks_t* self, void* data);
+void* stack_pop(stacks_t* self);
+void* stack_top(stacks_t* self);
+size_t stack_size(stacks_t* self);
+boolean_t stack_empty(stacks_t* self);
 
 #endif /* STACK_H */

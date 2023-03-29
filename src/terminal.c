@@ -68,7 +68,7 @@ void terminal_color(terminal_t* self, uint8_t r, uint8_t g, uint8_t b)
 {
   if (self == NULL) __throw("terminal_color: self is NULL");
   char __s[12];
-  sprintf((char*)&__s, "\033[38;5;%hhum", (uint8_t)__rgb(r, g, b));
+  sprintf((char*)&__s, "\033[38;5;%hhum", (uint8_t)(__rgb(r, g, b)));
   terminal_out_string(self, __s);
 }
 
@@ -76,7 +76,7 @@ void terminal_background(terminal_t* self, uint8_t r, uint8_t g, uint8_t b)
 {
   if (self == NULL) __throw("terminal_background: self is NULL");
   char __s[12];
-  sprintf((char*)&__s, "\033[48;5;%hhum", (uint8_t)__rgb(r, g, b));
+  sprintf((char*)&__s, "\033[48;5;%hhum", (uint8_t)(__rgb(r, g, b)));
   terminal_out_string(self, __s);
 }
 
@@ -121,8 +121,8 @@ __terminal_outop("%hd", int16_t);
 __terminal_outop("%hu", uint16_t);
 __terminal_outop("%d", int32_t);
 __terminal_outop("%u", uint32_t);
-__terminal_outop("%ld", int64_t);
-__terminal_outop("%lu", uint64_t);
+__terminal_outop("%lld", int64_t);
+__terminal_outop("%llu", uint64_t);
 __terminal_outop("%f", float);
 __terminal_outop("%lf", double);
 
@@ -162,8 +162,8 @@ __terminal_inop("%hd", int16_t);
 __terminal_inop("%hu", uint16_t);
 __terminal_inop("%d", int32_t);
 __terminal_inop("%u", uint32_t);
-__terminal_inop("%ld", int64_t);
-__terminal_inop("%lu", uint64_t);
+__terminal_inop("%lld", int64_t);
+__terminal_inop("%llu", uint64_t);
 __terminal_inop("%f", float);
 __terminal_inop("%lf", double);
 

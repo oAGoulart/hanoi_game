@@ -7,8 +7,8 @@ RM = rm
 OUT_DIR = bin/
 SRC_DIR = src/
 
-PROJECT = market_sim
-SOURCES = main.c terminal.c list.c stack.c game.c disc.c vector.c
+PROJECT = hanoi_game
+SOURCES = terminal.c list.c stack.c game.c disc.c vector.c main.c 
 SOURCES_ABS = $(addprefix $(SRC_DIR),$(SOURCES))
 DEBUG_FLAGS = $(CFLAGS)
 RELEASE_FLAGS = $(CFLAGS) -DNDEBUG -O3
