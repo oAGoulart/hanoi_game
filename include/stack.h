@@ -1,28 +1,18 @@
-// 13:44:00 17/05/2022 Augusto Goulart (1901560080)
-#pragma once
+/* Augusto Goulart (1901560080) 28/03/2023 12:54:00 */
+#ifndef STACK_H
+#define STACK_H 1
 
-#include <cctype>
 #include "base.h"
 #include "list.h"
 
-template <typename T>
-class stack: private list<T> {
-public:
-  using list<T>::empty;
-  using list<T>::size;
+typedef struct list_s stack_t;
 
-  void push(const T& value)
-  {
-    this->emplace_back(value);
-  }
+void stack_create(stack_t** self);
+void stack_destroy(stack_t** self);
+void stack_push(stack_t* self, void* data);
+void* stack_pop(stack_t* self);
+void* stack_top(stack_t* self);
+size_t stack_size(stack_t* self);
+boolean_t stack_empty(stack_t* self);
 
-  T pop()
-  {
-    return this->remove_back();
-  }
-
-  T& top()
-  {
-    return this->at(this->size() - 1);
-  }
-};
+#endif /* STACK_H */

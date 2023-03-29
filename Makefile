@@ -1,15 +1,14 @@
-# 11:34:00 17/05/2022, Augusto Goulart 1901560080
-
-CC = g++
-CFLAGS = -g -std=c++2a
+# Augusto Goulart (1901560080) 28/03/2023 12:54:00
+CC = gcc
+CFLAGS = -g
 MD = mkdir
 RM = rm
 
 OUT_DIR = bin/
 SRC_DIR = src/
 
-PROJECT = hanoi_game
-SOURCES = main.cpp terminal.cpp
+PROJECT = market_sim
+SOURCES = main.c terminal.c list.c stack.c game.c disc.c vector.c
 SOURCES_ABS = $(addprefix $(SRC_DIR),$(SOURCES))
 DEBUG_FLAGS = $(CFLAGS)
 RELEASE_FLAGS = $(CFLAGS) -DNDEBUG -O3

@@ -1,69 +1,55 @@
-// 23:36:00 11/05/2022 Augusto Goulart (1901560080)
-#pragma once
+/* Augusto Goulart (1901560080) 28/03/2023 12:54:00 */
+#ifndef TERMINAL_H
+#define TERMINAL_H 1
 
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <cstdio>
-#include <cstdint>
-#include <cstring>
-#include <cctype>
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include <ctype.h>
 #include "base.h"
 
-class terminal {
-public:
-  terminal();
-  ~terminal();
+typedef struct terminal_s terminal_t;
 
-  void save();
-  void restore();
-  void move(const base::size_t x, const base::size_t y);
-  void flush();
-  void restyle();
-  void color(const uint8_t r, const uint8_t g, const uint8_t b,
-             const bool fg, const bool bg);
-  void color(const base::color_t c, const bool fg, const bool bg);
-  void color(const uint8_t gray, const bool fg, const bool bg);
-  void font(const base::font_t f);
+void terminal_create(terminal_t** self);
+void terminal_destroy(terminal_t** self);
+void terminal_save(terminal_t* self);
+void terminal_restore(terminal_t* self);
+void terminal_move(terminal_t* self, uint16_t x, uint16_t y);
+void terminal_flush(terminal_t* self);
+void terminal_restyle(terminal_t* self);
+void terminal_color(terminal_t* self, uint8_t r, uint8_t g, uint8_t b);
+void terminal_background(terminal_t* self, uint8_t r, uint8_t g, uint8_t b);
+void terminal_font(terminal_t* self, font_t font);
 
-private:
-  struct termios _oldt, _newt;
-  int _fmode;
-  
-  void _color(const uint8_t c, const bool fg, const bool bg);
-};
+void terminal_out_char(terminal_t* self, char __c);
+void terminal_out_string(terminal_t* self, const char* __s);
+void terminal_out_bool(terminal_t* self, boolean_t __b);
+void terminal_out_uint8(terminal_t* self, uint8_t __tn);
+void terminal_out_int16(terminal_t* self, int16_t __tn);
+void terminal_out_uint16(terminal_t* self, uint16_t __tn);
+void terminal_out_int32(terminal_t* self, int32_t __tn);
+void terminal_out_uint32(terminal_t* self, uint32_t __tn);
+void terminal_out_int64(terminal_t* self, int64_t __tn);
+void terminal_out_uint64(terminal_t* self, uint64_t __tn);
+void terminal_out_float(terminal_t* self, float __tn);
+void terminal_out_double(terminal_t* self, double __tn);
 
-terminal& operator<<(terminal& __out, const char __c);
-terminal& operator<<(terminal& __out, const char* __s);
-terminal& operator<<(terminal& __out, const bool __b);
-terminal& operator<<(terminal& __out, const unsigned char __tn);
-terminal& operator<<(terminal& __out, const short __tn);
-terminal& operator<<(terminal& __out, const unsigned short __tn);
-terminal& operator<<(terminal& __out, const int __tn);
-terminal& operator<<(terminal& __out, const unsigned int __tn);
-terminal& operator<<(terminal& __out, const long __tn);
-terminal& operator<<(terminal& __out, const unsigned long __tn);
-terminal& operator<<(terminal& __out, const long long __tn);
-terminal& operator<<(terminal& __out, const unsigned long long __tn);
-terminal& operator<<(terminal& __out, const float __tn);
-terminal& operator<<(terminal& __out, const double __tn);
-terminal& operator<<(terminal& __out, const long double __tn);
-terminal& operator<<(terminal& __out, const void* __tn);
+void terminal_in_char(terminal_t* self, char* __c);
+void terminal_in_string(terminal_t* self, char* __s, size_t __n);
+void terminal_in_bool(terminal_t* self, boolean_t* __b);
+void terminal_in_uint8(terminal_t* self, uint8_t* __tn);
+void terminal_in_int16(terminal_t* self, int16_t* __tn);
+void terminal_in_uint16(terminal_t* self, uint16_t* __tn);
+void terminal_in_int32(terminal_t* self, int32_t* __tn);
+void terminal_in_uint32(terminal_t* self, uint32_t* __tn);
+void terminal_in_int64(terminal_t* self, int64_t* __tn);
+void terminal_in_uint64(terminal_t* self, uint64_t* __tn);
+void terminal_in_float(terminal_t* self, float* __tn);
+void terminal_in_double(terminal_t* self, double* __tn);
 
-terminal& operator>>(terminal& __out, char& __c) noexcept;
-terminal& operator>>(terminal& __out, bool& __c) noexcept;
-terminal& operator>>(terminal& __out, unsigned char& __tn) noexcept;
-terminal& operator>>(terminal& __out, short& __tn) noexcept;
-terminal& operator>>(terminal& __out, unsigned short& __tn) noexcept;
-terminal& operator>>(terminal& __out, int& __tn) noexcept;
-terminal& operator>>(terminal& __out, unsigned int& __tn) noexcept;
-terminal& operator>>(terminal& __out, long& __tn) noexcept;
-terminal& operator>>(terminal& __out, unsigned long& __tn) noexcept;
-terminal& operator>>(terminal& __out, long long& __tn) noexcept;
-terminal& operator>>(terminal& __out, unsigned long long& __tn) noexcept;
-terminal& operator>>(terminal& __out, float& __tn) noexcept;
-terminal& operator>>(terminal& __out, double& __tn) noexcept;
-terminal& operator>>(terminal& __out, long double& __tn) noexcept;
-terminal& operator>>(terminal& __out, void*& __tn) noexcept;
+void terminal_in_key(terminal_t* self, keys_t* __k);
 
-terminal& operator>>(terminal& __out, base::key_t& __k) noexcept;
+#endif /* TERMINAL_H */
