@@ -79,7 +79,7 @@ void game_create(game_t** self)
   disc_t* d = NULL;
   disc_create(&d, disc_huge, 255, 153, 0);
   stack_push((*self)->pins_[0], d);
-  disc_create(&d, disc_large, 0, 0, 102);
+  disc_create(&d, disc_large, 0, 51, 102);
   stack_push((*self)->pins_[0], d);
   disc_create(&d, disc_medium, 153, 0, 0);
   stack_push((*self)->pins_[0], d);

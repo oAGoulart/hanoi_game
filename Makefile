@@ -1,6 +1,6 @@
 # Augusto Goulart (1901560080) 28/03/2023 12:54:00
 CC = gcc
-CFLAGS = -g
+CFLAGS = -g -Wformat=0
 MD = mkdir
 RM = rm
 
