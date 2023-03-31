@@ -83,10 +83,16 @@ void list_emplace_back(list_t* self, void* data)
 {
   if (self == NULL) __throw("list_emplace_back: self is NULL");
   node_t* node;
-  node_create(&node, data, self->tail_, NULL);
-  if (self->tail_ != NULL) self->tail_->next_ = node;
-  self->tail_ = node;
-  if (self->head_ == NULL) self->head_ = node;
+  if (self->tail_ == NULL) {
+    node_create(&node, data, NULL, NULL);
+    self->head_ = node;
+    self->tail_ = node;
+  }
+  else {
+    node_create(&node, data, self->tail_, NULL);
+    self->tail_->next_ = node;
+    self->tail_ = node;
+  }
   self->size_++;
 }
 
@@ -94,10 +100,16 @@ void list_emplace_front(list_t* self, void* data)
 {
   if (self == NULL) __throw("list_emplace_front: self is NULL");
   node_t* node;
-  node_create(&node, data, NULL, self->head_);
-  if (self->head_ != NULL) self->head_->prev_ = node;
-  self->head_ = node;
-  if (self->tail_ == NULL) self->tail_ = node->next_;
+  if (self->head_ == NULL) {
+    node_create(&node, data, NULL, NULL);
+    self->head_ = node;
+    self->tail_ = node;
+  }
+  else {
+    node_create(&node, data, NULL, self->head_);
+    self->head_->prev_ = node;
+    self->head_ = node;
+  }
   self->size_++;
 }
 
