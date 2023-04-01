@@ -12,10 +12,12 @@ void vector_create(vector_t** self, size_t capacity, size_t element_size)
 {
   if (self == NULL) __throw("vector_create: self is NULL");
   *self = (vector_t*)malloc(sizeof(vector_t));
+  if (*self == NULL) __throw("vector_create: malloc failed");
   (*self)->size_ = 0;
   (*self)->capacity_ = capacity;
   (*self)->element_size_ = element_size;
   (*self)->data_ = malloc(capacity * element_size);
+  if ((*self)->data_ == NULL) __throw("vector_create: data_ malloc failed");
 }
 
 void vector_destroy(vector_t** self)
@@ -33,6 +35,7 @@ void vector_update_capacity_if_needed_(vector_t* self)
   if (self->size_ == self->capacity_) {
     self->capacity_ *= 2;
     self->data_ = realloc(self->data_, self->capacity_ * self->element_size_);
+    if (self->data_ == NULL) __throw("vector_update_capacity_if_needed_: realloc failed");
   }
 }
 
