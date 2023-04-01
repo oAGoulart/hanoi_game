@@ -19,9 +19,9 @@ int main(int argc, char** argv)
     else if (strcmp(argv[1], "-s") == 0 || strcmp(argv[1], "--solve") == 0)
       solve = TRUE;
     else
-      __throw("main: invalid argument");
+      __throw("Invalid argument");
   }
-  else if (argc > 2) __throw("main: too many arguments");
+  else if (argc > 2) __throw("Too many arguments");
 
   game_t* game;
   game_create(&game);

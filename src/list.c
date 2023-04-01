@@ -10,9 +10,9 @@ typedef struct node_s {
 
 void node_create(node_t** self, void* data, node_t* prev, node_t* next)
 {
-  if (self == NULL) __throw("node_create: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   *self = (node_t*)malloc(sizeof(node_t));
-  if (*self == NULL) __throw("node_create: malloc failed");
+  if (*self == NULL) __throw(__exception_malloc_failed);
   (*self)->data_ = data;
   (*self)->prev_ = prev;
   (*self)->next_ = next;
@@ -20,8 +20,8 @@ void node_create(node_t** self, void* data, node_t* prev, node_t* next)
 
 void node_destroy(node_t** self)
 {
-  if (self == NULL) __throw("node_destroy: self is NULL");
-  if (*self == NULL) __throw("node_destroy: *self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (*self == NULL) __throw(__exception_null_pointer);
   if ((*self)->data_ != NULL) free((*self)->data_);
   free(*self);
   *self = NULL;
@@ -35,9 +35,9 @@ struct list_s {
 
 void list_create(list_t** self)
 {
-  if (self == NULL) __throw("list_create: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   *self = (list_t*)malloc(sizeof(list_t));
-  if (*self == NULL) __throw("list_create: malloc failed");
+  if (*self == NULL) __throw(__exception_malloc_failed);
   (*self)->head_ = NULL;
   (*self)->tail_ = NULL;
   (*self)->size_ = 0;
@@ -45,8 +45,8 @@ void list_create(list_t** self)
 
 void list_destroy(list_t** self)
 {
-  if (self == NULL) __throw("list_destroy: self is NULL");
-  if (*self == NULL) __throw("list_destroy: *self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (*self == NULL) __throw(__exception_null_pointer);
   list_clear(*self);
   free(*self);
   *self = NULL;
@@ -54,7 +54,7 @@ void list_destroy(list_t** self)
 
 void list_clear(list_t* self)
 {
-  if (self == NULL) __throw("list_clear: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   node_t* node = self->head_;
   while (node != NULL) {
     node_t* next = node->next_;
@@ -68,8 +68,8 @@ void list_clear(list_t* self)
 
 void* list_at(list_t* self, size_t index)
 {
-  if (self == NULL) __throw("list_at: self is NULL");
-  if (index >= self->size_) __throw("list_at: index out of range");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (index >= self->size_) __throw(__exception_out_of_range);
   node_t* node = self->head_;
   size_t i = 0;
   while (i < index) {
@@ -81,7 +81,7 @@ void* list_at(list_t* self, size_t index)
 
 void list_emplace_back(list_t* self, void* data)
 {
-  if (self == NULL) __throw("list_emplace_back: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   node_t* node;
   if (self->tail_ == NULL) {
     node_create(&node, data, NULL, NULL);
@@ -98,7 +98,7 @@ void list_emplace_back(list_t* self, void* data)
 
 void list_emplace_front(list_t* self, void* data)
 {
-  if (self == NULL) __throw("list_emplace_front: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   node_t* node;
   if (self->head_ == NULL) {
     node_create(&node, data, NULL, NULL);
@@ -115,8 +115,8 @@ void list_emplace_front(list_t* self, void* data)
 
 void list_emplace(list_t* self, void* data, size_t index)
 {
-  if (self == NULL) __throw("list_emplace: self is NULL");
-  if (index > self->size_) __throw("list_emplace: index out of range");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (index > self->size_) __throw(__exception_out_of_range);
   if (index == 0) {
     list_emplace_front(self, data);
     return;
@@ -143,8 +143,8 @@ void list_emplace(list_t* self, void* data, size_t index)
 
 void* list_remove_back(list_t* self)
 {
-  if (self == NULL) __throw("list_remove_back: self is NULL");
-  if (self->size_ == 0) __throw("list_remove_back: list is empty");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (self->size_ == 0) __throw(__exception_out_of_range);
   node_t* node = self->tail_;
   void* data = node->data_;
   self->tail_ = node->prev_;
@@ -157,8 +157,8 @@ void* list_remove_back(list_t* self)
 
 void* list_remove_front(list_t* self)
 {
-  if (self == NULL) __throw("list_remove_front: self is NULL");
-  if (self->size_ == 0) __throw("list_remove_front: list is empty");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (self->size_ == 0) __throw(__exception_out_of_range);
   node_t* node = self->head_;
   void* data = node->data_;
   self->head_ = node->next_;
@@ -171,8 +171,8 @@ void* list_remove_front(list_t* self)
 
 void* list_remove(list_t* self, size_t index)
 {
-  if (self == NULL) __throw("list_remove: self is NULL");
-  if (index >= self->size_) __throw("list_remove: index out of range");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (index >= self->size_) __throw(__exception_out_of_range);
   if (index == 0) return list_remove_front(self);
   if (index == self->size_ - 1) return list_remove_back(self);
   node_t* node = self->head_;
@@ -193,20 +193,20 @@ void* list_remove(list_t* self, size_t index)
 
 size_t list_size(list_t* self)
 {
-  if (self == NULL) __throw("list_size: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   return self->size_;
 }
 
 boolean_t list_empty(list_t* self)
 {
-  if (self == NULL) __throw("list_empty: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   return self->size_ == 0;
 }
 
 void list_foreach(list_t* self, void (*callback)(void*))
 {
-  if (self == NULL) __throw("list_foreach: self is NULL");
-  if (callback == NULL) __throw("list_foreach: callback is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (callback == NULL) __throw(__exception_null_pointer);
   node_t* node = self->head_;
   while (node != NULL) {
     callback(node->data_);

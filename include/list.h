@@ -18,5 +18,6 @@ void* list_remove_front(list_t* self);
 void* list_remove(list_t* self, size_t index);
 size_t list_size(list_t* self);
 boolean_t list_empty(list_t* self);
+void list_foreach(list_t* self, void (*callback)(void*));
 
 #endif /* LIST_H */

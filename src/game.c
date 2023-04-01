@@ -16,7 +16,7 @@ struct game_s {
 
 void calculate_move_(uint8_t src, uint8_t dest, vector_t* solution)
 {
-  if (solution == NULL) __throw("calculate_move_: solution is NULL");
+  if (solution == NULL) __throw(__exception_null_pointer);
   keys_t k;
   int move = (int)dest - (int)src;
   if (move > 0) {
@@ -35,7 +35,7 @@ void calculate_move_(uint8_t src, uint8_t dest, vector_t* solution)
 
 void game_solve(game_t* self, uint8_t n, uint8_t src, uint8_t aux, uint8_t dest)
 {
-  if (self == NULL) __throw("game_run: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   keys_t k = key_up;
   if (n == 1) {
     vector_append(self->solution_, &k);
@@ -58,9 +58,9 @@ void game_solve(game_t* self, uint8_t n, uint8_t src, uint8_t aux, uint8_t dest)
 
 void game_create(game_t** self)
 {
-  if (self == NULL) __throw("game_create: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   *self = (game_t*)malloc(sizeof(game_t));
-  if (*self == NULL) __throw("game_create: malloc failed");
+  if (*self == NULL) __throw(__exception_malloc_failed);
   terminal_create(&(*self)->t_);
   (*self)->num_pins_ = 3;
   (*self)->current_pin_ = 0;
@@ -91,8 +91,8 @@ void game_create(game_t** self)
 
 void game_destroy(game_t** self)
 {
-  if (self == NULL) __throw("game_destroy: self is NULL");
-  if (*self == NULL) __throw("game_destroy: *self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (*self == NULL) __throw(__exception_null_pointer);
   terminal_destroy(&(*self)->t_);
   vector_destroy(&(*self)->solution_);
   stack_destroy(&(*self)->pins_[0]);
@@ -104,8 +104,8 @@ void game_destroy(game_t** self)
 
 void draw_disc_(game_t* self, disc_t* disc, uint8_t pin, size_t i)
 {
-  if (self == NULL) __throw("draw_disc_: self is NULL");
-  if (disc == NULL) __throw("draw_disc_: disc is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (disc == NULL) __throw(__exception_null_pointer);
   const size_t x = 19 - i;
   const size_t y = 11 + (20 * pin);
 
@@ -124,7 +124,7 @@ void draw_disc_(game_t* self, disc_t* disc, uint8_t pin, size_t i)
 
 void draw_pin_(game_t* self, uint8_t pin)
 {
-  if (self == NULL) __throw("draw_pin_: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   const size_t x = 14;
   const size_t y = 10 + (20 * pin);
 
@@ -166,7 +166,7 @@ char* movement_to_string_(keys_t key)
 
 void draw_info_(game_t* self)
 {
-  if (self == NULL) __throw("draw_info_: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   terminal_move(self->t_, 2, 20);
   terminal_color(self->t_, 255, 255, 102);
   terminal_font(self->t_, font_bold);
@@ -220,6 +220,7 @@ void game_draw(game_t* self)
     }
     while (!stack_empty(aux))
       stack_push(self->pins_[i], stack_pop(aux));
+    stack_destroy(&aux);
   }
   terminal_restore(self->t_);
   terminal_restyle(self->t_);
@@ -227,7 +228,7 @@ void game_draw(game_t* self)
 
 void game_run(game_t* self, boolean_t solve)
 {
-  if (self == NULL) __throw("game_run: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   self->is_running_ = TRUE;
   self->is_solving_ = solve;
   boolean_t redraw = TRUE;

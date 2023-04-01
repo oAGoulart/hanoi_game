@@ -9,7 +9,7 @@ struct terminal_s {
 
 void terminal_create(terminal_t** self)
 {
-  if (self == NULL) __throw("terminal_create: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   *self = (terminal_t*)malloc(sizeof(terminal_t));
   
   tcgetattr(STDIN_FILENO, &(*self)->old_termios_);
@@ -24,8 +24,8 @@ void terminal_create(terminal_t** self)
 
 void terminal_destroy(terminal_t** self)
 {
-  if (self == NULL) __throw("terminal_destroy: self is NULL");
-  if (*self == NULL) __throw("terminal_destroy: *self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (*self == NULL) __throw(__exception_null_pointer);
   tcsetattr(STDIN_FILENO, TCSANOW, &(*self)->old_termios_);
   fcntl(STDIN_FILENO, F_SETFL, (*self)->fmode_);
   free(*self);
@@ -34,19 +34,19 @@ void terminal_destroy(terminal_t** self)
 
 void terminal_save(terminal_t* self)
 {
-  if (self == NULL) __throw("terminal_save: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   terminal_out_string(self, "\0337");
 }
 
 void terminal_restore(terminal_t* self)
 {
-  if (self == NULL) __throw("terminal_restore: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   terminal_out_string(self, "\0338");
 }
 
 void terminal_move(terminal_t* self, uint16_t x, uint16_t y)
 {
-  if (self == NULL) __throw("terminal_move: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   char __s[15];
   sprintf((char*)&__s, "\033[%hd;%hdH", x, y);
   terminal_out_string(self, __s);
@@ -54,19 +54,19 @@ void terminal_move(terminal_t* self, uint16_t x, uint16_t y)
 
 void terminal_restyle(terminal_t* self)
 {
-  if (self == NULL) __throw("terminal_restyle: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   terminal_out_string(self, "\033[m");
 }
 
 void terminal_flush(terminal_t* self)
 {
-  if (self == NULL) __throw("terminal_flush: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   terminal_out_string(self, "\033[1;1H\033[2J");
 }
 
 void terminal_color(terminal_t* self, uint8_t r, uint8_t g, uint8_t b)
 {
-  if (self == NULL) __throw("terminal_color: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   char __s[12];
   sprintf((char*)&__s, "\033[38;5;%hhum", (uint8_t)(__rgb(r, g, b)));
   terminal_out_string(self, __s);
@@ -74,7 +74,7 @@ void terminal_color(terminal_t* self, uint8_t r, uint8_t g, uint8_t b)
 
 void terminal_background(terminal_t* self, uint8_t r, uint8_t g, uint8_t b)
 {
-  if (self == NULL) __throw("terminal_background: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   char __s[12];
   sprintf((char*)&__s, "\033[48;5;%hhum", (uint8_t)(__rgb(r, g, b)));
   terminal_out_string(self, __s);
@@ -82,7 +82,7 @@ void terminal_background(terminal_t* self, uint8_t r, uint8_t g, uint8_t b)
 
 void terminal_font(terminal_t* self, font_t font)
 {
-  if (self == NULL) __throw("terminal_font: self is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
   char __s[7];
   sprintf((char*)&__s, "\033[%hhum", (uint8_t)font);
   terminal_out_string(self, __s);
@@ -90,29 +90,29 @@ void terminal_font(terminal_t* self, font_t font)
 
 void terminal_out_char(terminal_t* self, char __c)
 {
-  if (self == NULL) __throw("terminal_out_char: self is NULL");
-  if (fputc(__c, stdout) == EOF) __throw("terminal_out_char: fputc failed");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (fputc(__c, stdout) == EOF) __throw(__exception_fputc_failed);
 }
 
 void terminal_out_string(terminal_t* self, const char* __s)
 {
-  if (self == NULL) __throw("terminal_out_string: self is NULL");
-  if (fputs(__s, stdout) == EOF) __throw("terminal_out_string: fputs failed");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (fputs(__s, stdout) == EOF) __throw(__exception_fputs_failed);
 }
 
 void terminal_out_bool(terminal_t* self, boolean_t __b)
 {
-  if (self == NULL) __throw("terminal_out_boolean: self is NULL");
-  if (fputs((__b) ? "true" : "false", stdout) == EOF) __throw("terminal_out_boolean: fputs failed");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (fputs((__b) ? "true" : "false", stdout) == EOF) __throw(__exception_fputs_failed);
 }
 
 #define __terminal_outop(F, T) \
 void terminal_out_##T(terminal_t* self, T __tn) \
 { \
-  if (self == NULL) __throw("terminal_out_" #T ": self is NULL"); \
+  if (self == NULL) __throw(__exception_null_pointer); \
   const size_t n = sizeof(__tn) * 3 + 1; \
   char __s[n]; \
-  if (snprintf(__s, n, F, __tn) < 0) __throw("terminal_out_" #T ": snprintf failed"); \
+  if (snprintf(__s, n, F, __tn) < 0) __throw(__exception_snprintf_failed); \
   terminal_out_string(self, __s); \
 }
 
@@ -128,33 +128,33 @@ __terminal_outop("%lf", double);
 
 void terminal_in_char(terminal_t* self, char* __c)
 {
-  if (self == NULL) __throw("terminal_in_char: self is NULL");
-  if (__c == NULL) __throw("terminal_in_char: __c is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (__c == NULL) __throw(__exception_null_pointer);
   *__c = (char)(fgetc(stdin));
 }
 
 void terminal_in_string(terminal_t* self, char* __s, size_t __n)
 {
-  if (self == NULL) __throw("terminal_in_string: self is NULL");
-  if (__s == NULL) __throw("terminal_in_string: __s is NULL");
-  if (fgets(__s, __n, stdin) == NULL) __throw("terminal_in_string: fgets failed");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (__s == NULL) __throw(__exception_null_pointer);
+  if (fgets(__s, __n, stdin) == NULL) __throw(__exception_fgets_failed);
 }
 
 void terminal_in_bool(terminal_t* self, boolean_t* __b)
 {
-  if (self == NULL) __throw("terminal_in_bool: self is NULL");
-  if (__b == NULL) __throw("terminal_in_bool: __b is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (__b == NULL) __throw(__exception_null_pointer);
   char __s[6];
-  if (fgets(__s, 6, stdin) == NULL) __throw("terminal_in_bool: fgets failed");
+  if (fgets(__s, 6, stdin) == NULL) __throw(__exception_fgets_failed);
   *__b = (!strcmp(__s, "true") || !strcmp(__s, "TRUE"));
 }
 
 #define __terminal_inop(F, T) \
 void terminal_in_##T(terminal_t* self, T* __tn) \
 { \
-  if (self == NULL) __throw("terminal_in_" #T ": self is NULL"); \
-  if (__tn == NULL) __throw("terminal_in_" #T ": __tn is NULL"); \
-  if (fscanf(stdin, F, __tn) < 0) __throw("terminal_in_" #T ": fscanf failed"); \
+  if (self == NULL) __throw(__exception_null_pointer); \
+  if (__tn == NULL) __throw(__exception_null_pointer); \
+  if (fscanf(stdin, F, __tn) < 0) __throw(__exception_fscanf_failed); \
 }
 
 __terminal_inop("%hhu", uint8_t);
@@ -170,8 +170,8 @@ __terminal_inop("%lf", double);
 
 void terminal_in_key(terminal_t* self, keys_t* __k)
 {
-  if (self == NULL) __throw("terminal_in_key: self is NULL");
-  if (__k == NULL) __throw("terminal_in_key: __k is NULL");
+  if (self == NULL) __throw(__exception_null_pointer);
+  if (__k == NULL) __throw(__exception_null_pointer);
   *__k = key_none;
   char c;
   terminal_in_char(self, &c);

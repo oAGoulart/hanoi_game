@@ -6,25 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/*typedef enum color_e {
-  color_black,
-  color_red,
-  color_green,
-  color_yellow,
-  color_blue,
-  color_magenta,
-  color_cyan,
-  color_white,
-  color_hblack,
-  color_hred,
-  color_hgreen,
-  color_hyellow,
-  color_hblue,
-  color_hmagenta,
-  color_hcyan,
-  color_hwhite
-} color_t;*/
-
 typedef struct color_s {
   uint8_t r;
   uint8_t g;
@@ -189,19 +170,33 @@ typedef uint8_t boolean_t;
 #define __pdebug(str) \
 { \
   printf( \
-		str "\n" \
+		"%s\n" \
     "FILE: " __FILE__ " LINE: " __xstr(__LINE__) "\n" \
+    "FUNC: %s\n", str, __func__ \
   ); \
 }
 #else
 #define __pdebug(str)
 #endif
 
-/* fatal error */
-#define __throw(str) \
+/* exception handling */
+#define __exception_invalid_argument __c(41, " FATAL ") "\tInvalid argument"
+#define __exception_null_pointer __c(41, " FATAL ") "\tNULL pointer"
+#define __exception_unimplemented __c(41, " FATAL ") "\tUnimplemented"
+#define __exception_unexpected __c(41, " FATAL ") "\tUnexpected"
+#define __exception_realloc_failed __c(41, " FATAL ") "\trealloc() failed"
+#define __exception_malloc_failed __c(41, " FATAL ") "\tmalloc() failed"
+#define __exception_out_of_range __c(41, " FATAL ") "\tIndex out of range"
+#define __exception_fputc_failed __c(41, " FATAL ") "\tfputc() failed"
+#define __exception_fputs_failed __c(41, " FATAL ") "\tfputs() failed"
+#define __exception_fgets_failed __c(41, " FATAL ") "\tfgets() failed"
+#define __exception_fscanf_failed __c(41, " FATAL ") "\tfscanf() failed"
+#define __exception_snprintf_failed __c(41, " FATAL ") "\tsnprintf() failed"
+
+#define __throw(e) \
 { \
-  __pdebug(__c(41, " FATAL ") "\t" str); \
-  abort(); \
+  __pdebug(e); \
+  __builtin_trap(); \
 }
 
 #endif /* BASE_H */
