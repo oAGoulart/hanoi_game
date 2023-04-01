@@ -30,7 +30,7 @@ void vector_destroy(vector_t** self)
 void vector_update_capacity_if_needed_(vector_t* self)
 {
   if (self == NULL) __throw("vector_update_capacity_if_needed: self is NULL");
-  if (self->size == self->capacity_) {
+  if (self->size_ == self->capacity_) {
     self->capacity_ *= 2;
     self->data_ = realloc(self->data_, self->capacity_ * self->element_size_);
   }
