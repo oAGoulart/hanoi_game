@@ -1,4 +1,4 @@
-/* Augusto Goulart (1901560080) 28/03/2023 12:54:00 */
+/* Augusto Goulart (1901560080) 02/04/2023 15:19:00 */
 #ifndef TERMINAL_H
 #define TERMINAL_H 1
 
@@ -27,26 +27,26 @@ void terminal_font(terminal_t* self, font_t font);
 void terminal_out_char(terminal_t* self, char __c);
 void terminal_out_string(terminal_t* self, const char* __s);
 void terminal_out_bool(terminal_t* self, boolean_t __b);
-void terminal_out_uint8(terminal_t* self, uint8_t __tn);
-void terminal_out_int16(terminal_t* self, int16_t __tn);
-void terminal_out_uint16(terminal_t* self, uint16_t __tn);
-void terminal_out_int32(terminal_t* self, int32_t __tn);
-void terminal_out_uint32(terminal_t* self, uint32_t __tn);
-void terminal_out_int64(terminal_t* self, int64_t __tn);
-void terminal_out_uint64(terminal_t* self, uint64_t __tn);
+void terminal_out_uint8_t(terminal_t* self, uint8_t __tn);
+void terminal_out_int16_t(terminal_t* self, int16_t __tn);
+void terminal_out_uint16_t(terminal_t* self, uint16_t __tn);
+void terminal_out_int32_t(terminal_t* self, int32_t __tn);
+void terminal_out_uint32_t(terminal_t* self, uint32_t __tn);
+void terminal_out_int64_t(terminal_t* self, int64_t __tn);
+void terminal_out_uint64_t(terminal_t* self, uint64_t __tn);
 void terminal_out_float(terminal_t* self, float __tn);
 void terminal_out_double(terminal_t* self, double __tn);
 
 void terminal_in_char(terminal_t* self, char* __c);
 void terminal_in_string(terminal_t* self, char* __s, size_t __n);
 void terminal_in_bool(terminal_t* self, boolean_t* __b);
-void terminal_in_uint8(terminal_t* self, uint8_t* __tn);
-void terminal_in_int16(terminal_t* self, int16_t* __tn);
-void terminal_in_uint16(terminal_t* self, uint16_t* __tn);
-void terminal_in_int32(terminal_t* self, int32_t* __tn);
-void terminal_in_uint32(terminal_t* self, uint32_t* __tn);
-void terminal_in_int64(terminal_t* self, int64_t* __tn);
-void terminal_in_uint64(terminal_t* self, uint64_t* __tn);
+void terminal_in_uint8_t(terminal_t* self, uint8_t* __tn);
+void terminal_in_int16_t(terminal_t* self, int16_t* __tn);
+void terminal_in_uint16_t(terminal_t* self, uint16_t* __tn);
+void terminal_in_int32_t(terminal_t* self, int32_t* __tn);
+void terminal_in_uint32_t(terminal_t* self, uint32_t* __tn);
+void terminal_in_int64_t(terminal_t* self, int64_t* __tn);
+void terminal_in_uint64_t(terminal_t* self, uint64_t* __tn);
 void terminal_in_float(terminal_t* self, float* __tn);
 void terminal_in_double(terminal_t* self, double* __tn);
 
